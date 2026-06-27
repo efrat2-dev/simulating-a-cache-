@@ -5,21 +5,29 @@ class LRUCache(Cache):
     """
     Cache with LRU policy.
     """
-
     def __init__(self, size):
-        super().__init__(size)
+        super().__init__(size) 
+        self.cache = {}
+        self.used_index = [size]
+        self.counter = 0
 
     def contains(self, index):
-        raise NotImplementedError()
+        if index in self.cache:
+            return True
+        return False
 
     def lookup(self, index):
-        raise NotImplementedError()
+        return self.cache[index]
 
     def cache_is_full(self):
-        raise NotImplementedError()
-
+        if self.counter == self. size:
+            return True
+        return False
+        
     def evict(self):
-        raise NotImplementedError()
+        del self.cache[self.used_index[0]]
 
     def insert(self, index, value):
-        raise NotImplementedError()
+        self.counter += 1
+        self.used_index[self.counter-1] = index
+        self.cache[index]=value

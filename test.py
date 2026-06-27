@@ -124,7 +124,6 @@ def run_test(test_name, test_function):
 
 
 def main():
-
     print("===== RUNNING LRU TESTS =====")
     print()
 
