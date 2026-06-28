@@ -10,7 +10,7 @@ class RRCache(Cache):
     def __init__(self, size):
         super().__init__(size) 
         self.cache = {}
-        self.used_index = [size]
+        self.used_index = [None] * size
         self.counter = 0
 
     def contains(self, index):
@@ -28,9 +28,15 @@ class RRCache(Cache):
         
     def evict(self):
         randomI = random.randint(0, self.counter-1)
-        self.cache[self.used_index[randomI]] = self.cache[self.used_index[self.counter-1]]
+        key = self.used_index[randomI]
+        del self.cache[key]
+        self.used_index[randomI]= self.used_index[self.counter-1]
+        self.counter -=1
+        
 
     def insert(self, index, value):
-        self.counter += 1
-        self.used_index[self.counter-1] = index
-        self.cache[index]=value
+        if index not in self.cache:
+            self.used_index[self.counter]= index
+            self.counter += 1
+        self.cache[index]= value
+        
